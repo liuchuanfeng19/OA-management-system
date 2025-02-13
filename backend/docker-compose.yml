@@ -1,0 +1,52 @@
+version: "3"
+services:
+  redis:
+    image: redis:latest
+    container_name: oa-redis
+    ports:
+      - 6379:6379
+
+  db:
+    image: mysql:latest
+    container_name: oa-mysql
+    ports:
+      - 3306:3306
+    environment:
+      - "MYSQL_ROOT_PASSWORD=p@ssw0rd"
+      - "MYSQL_USER=yjkj"
+      - "MYSQL_PASSWORD=p@ssw0rd"
+      # - "MYSQL_DATABASE=yourdbname"
+      - "TZ=Asia/Shanghai"
+    command: --default_authentication_plugin=mysql_native_password
+    # volumes:
+      # - "~/oa-mysql/datadir:/var/lib/mysql"
+      # - "~/oa-mysql/conf/my.cnf:/etc/my.cnf"
+      # 数据库还原目录 可将需要还原的sql文件放在这里
+      # - "~/oa-mysql/source:/docker-entrypoint-initdb.d"
+      # - "~/oa-mysql/source/DB_Oa_240320.sql:/docker-entrypoint-initdb.d/DB_Oa_240320.sql"
+      # - "~/oa-mysql/source/DB_MagicOa_240320.sql:/docker-entrypoint-initdb.d/DB_MagicOa_240320.sql"
+
+  oawebapi:
+    image: oa-webapi-image:latest
+    container_name: oa-webapi
+    ports:
+      - 9000:9000
+    # depends_on:
+    #   - redis
+    #   - db
+
+  oabfwapi:
+    image: oa-bfwapi-image:latest
+    container_name: oa-bfwapi
+    ports:
+      - 8010:8010
+    # depends_on:
+    #   - redis
+    #   - db
+
+# networks:
+#   frontend:
+#   backend:
+
+# volumes:
+#   db-data:

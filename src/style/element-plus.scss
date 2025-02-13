@@ -1,0 +1,416 @@
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+.el-table__cell .cell:empty::before {
+  content: "---";
+}
+
+.el-upload {
+  --el-upload-dragger-padding-horizontal: 40px;
+  --el-upload-dragger-padding-vertical: 10px;
+
+  display: block !important;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  outline: 0;
+
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-dropdown-menu {
+  padding: 0 !important;
+}
+
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+.is-dark {
+  z-index: 9999 !important;
+}
+
+/* 重置 el-button 中 icon 的 margin */
+.reset-margin [class*="el-icon"] + span {
+  margin-left: 2px !important;
+}
+
+/* 自定义 popover 的类名 */
+.pure-popper {
+  padding: 0 !important;
+}
+
+/* 去掉input type="number"时后边的箭头 */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  appearance: none;
+}
+
+.el-form-item__content {
+  .el-input__wrapper {
+    width: 160px !important;
+  }
+
+  .el-input-group--append .el-input__wrapper {
+    width: 134px !important;
+  }
+
+  .uploader {
+    width: 100%;
+  }
+
+  .picture-card-uploader {
+    padding: 12px;
+    border-radius: var(--el-input-border-radius, var(--el-border-radius-base));
+    box-shadow: 0 0 0 1px var(--el-input-border-color, var(--el-border-color))
+      inset;
+  }
+}
+
+.el-form--inline .el-select {
+  width: 160px !important;
+}
+
+.el-date-editor.el-input,
+.el-date-editor.el-input__wrapper {
+  --el-date-editor-width: 160px;
+}
+
+.el-input-number {
+  width: 100% !important;
+}
+
+.el-input-number .el-input__inner {
+  text-align: right !important;
+}
+
+.el-dialog {
+  padding: 0 !important;
+  border: 1px solid var(--el-color-primary-light-7) !important;
+}
+
+.el-dialog__body {
+  box-sizing: border-box;
+  padding: var(--el-dialog-padding-primary) !important;
+  padding-bottom: 0 !important;
+  border-top: var(--el-border-width) var(--el-border-style)
+    var(--el-border-color);
+  border-bottom: var(--el-border-width) var(--el-border-style)
+    var(--el-border-color);
+}
+
+.auditDialog .el-dialog__body {
+  padding-top: 5px !important;
+}
+
+.table-dialog .el-dialog__body {
+  padding-top: 4px !important;
+}
+
+.el-dialog__header {
+  padding: var(--el-dialog-padding-primary) !important;
+  margin-right: 0 !important;
+}
+
+.el-dialog__title {
+  --el-dialog-title-font-size: 16px;
+
+  font-weight: bold;
+}
+
+.el-dialog__headerbtn {
+  top: 4px !important;
+}
+
+.el-dialog__footer {
+  padding: var(--el-dialog-padding-primary) !important;
+}
+
+.el-form-item {
+  --font-size: 14px;
+
+  display: flex;
+}
+
+.el-form-item__content > div {
+  width: 100%;
+}
+
+.el-form-item__label {
+  font-weight: normal;
+}
+
+.editable .el-form-item__label {
+  color: blue;
+}
+
+.item .el-form-item__label {
+  color: blue;
+}
+
+.el-upload--text,
+.el-upload--text > div {
+  width: 100%;
+}
+
+.el-upload-list--picture-card
+  .el-upload-list__item-actions:hover
+  span.el-upload-list__item-preview {
+  display: none;
+}
+
+.el-upload-list--picture-card {
+  --el-upload-list-picture-card-size: 96px !important;
+}
+
+.el-upload--picture-card {
+  --el-upload-picture-card-size: 96px !important;
+}
+
+/* 修改表格 表头 居中 */
+.el-table__header-wrapper .el-table__cell {
+  color: var(--el-text-color-regular);
+  text-align: center !important;
+  background: var(--el-fill-color-light);
+}
+
+.el-table.is-scrolling-left th.el-table-fixed-column--left,
+.el-table th.el-table__cell {
+  background: var(--el-fill-color) !important;
+}
+
+.el-table__body-wrapper {
+  .el-scrollbar__wrap {
+    display: grid;
+
+    .el-table__empty-text {
+      .el-empty__image {
+        --el-empty-image-width: 100px;
+      }
+
+      .el-empty__description {
+        --el-empty-description-margin-top: 0px;
+      }
+    }
+  }
+}
+
+.el-table {
+  --el-table-border-color: var(--el-border-color) !important;
+  --el-table-header-bg-color: var(--el-fill-color-light) !important;
+}
+
+.printTable .el-table--border .el-table__inner-wrapper::after,
+.printTable .el-table--border::after,
+.printTable .el-table--border::before,
+.printTable .el-table__inner-wrapper::before {
+  background-color: #333 !important;
+}
+
+/* nprogress 适配 element-plus 的主题色 */
+#nprogress {
+  & .bar {
+    background-color: var(--el-color-primary) !important;
+  }
+
+  & .peg {
+    box-shadow:
+      0 0 10px var(--el-color-primary),
+      0 0 5px var(--el-color-primary) !important;
+  }
+
+  & .spinner-icon {
+    border-top-color: var(--el-color-primary);
+    border-left-color: var(--el-color-primary);
+  }
+}
+
+.el-steps--horizontal {
+  justify-content: center;
+}
+
+.el-tree-node__content {
+  font-size: 14px;
+  color: --el-text-color-primary;
+}
+
+.pure-dialog {
+  .el-dialog__header.show-close {
+    padding-right: 16px;
+  }
+
+  .el-dialog__headerbtn {
+    top: 20px;
+    right: 14px;
+    width: 24px;
+    height: 24px;
+  }
+
+  .pure-dialog-svg {
+    color: var(--el-color-info);
+  }
+
+  .el-dialog__footer {
+    padding-top: 0;
+  }
+}
+
+/* 全局覆盖element-plus的el-dialog、el-drawer、el-message-box、el-notification组件右上角关闭图标和el-upload上传文件列表右侧关闭图标的样式，表现更鲜明 */
+.el-dialog__headerbtn,
+.el-message-box__headerbtn {
+  &:hover {
+    .el-dialog__close {
+      color: var(--el-color-info) !important;
+    }
+  }
+}
+
+.el-icon {
+  &.el-dialog__close,
+  &.el-drawer__close,
+  &.el-message-box__close,
+  &.el-notification__closeBtn,
+  .el-upload-list__item.is-ready &.el-icon--close {
+    width: 24px;
+    height: 24px;
+    border-radius: 4px;
+    outline: none;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+
+    &:hover {
+      color: rgb(0 0 0 / 88%) !important;
+      text-decoration: none;
+      background-color: rgb(0 0 0 / 6%);
+
+      .pure-dialog-svg {
+        color: rgb(0 0 0 / 88%) !important;
+      }
+    }
+  }
+}
+
+/* 克隆并自定义 ElMessage 样式，不会影响 ElMessage 原本样式，在 src/utils/message.ts 中调用自定义样式 ElMessage 方法即可，整体暗色风格在 src/style/dark.scss 文件进行了适配 */
+.pure-message {
+  background: #fff !important;
+  border-width: 0 !important;
+  box-shadow:
+    0 3px 6px -4px #0000001f,
+    0 6px 16px #00000014,
+    0 9px 28px 8px #0000000d !important;
+
+  & .el-message__content {
+    color: #000000d9 !important;
+    pointer-events: all !important;
+    background-image: initial !important;
+  }
+
+  & .el-message__closeBtn {
+    border-radius: 4px;
+    outline: none;
+    transition:
+      background-color 0.2s,
+      color 0.2s;
+
+    &:hover {
+      background-color: rgb(0 0 0 / 6%);
+    }
+  }
+}
+
+/* 自定义菜单搜索样式 */
+.pure-search-dialog {
+  @media screen and (width > 760px) and (width <=940px) {
+    .el-input__inner {
+      font-size: 12px;
+    }
+  }
+
+  @media screen and (width <=470px) {
+    .el-input__inner {
+      font-size: 12px;
+    }
+  }
+
+  .el-dialog__header {
+    display: none;
+  }
+
+  .el-dialog__body {
+    padding-top: 12px;
+    padding-bottom: 0;
+  }
+
+  .el-input__inner {
+    font-size: 1.2em;
+  }
+
+  .el-dialog__footer {
+    width: calc(100% + 32px);
+    padding: 10px 20px;
+    margin: auto -16px -16px;
+    box-shadow:
+      0 -1px 0 0 #e0e3e8,
+      0 -3px 6px 0 rgb(69 98 155 / 12%);
+  }
+}
+
+/* 仿 el-scrollbar 滚动条样式，支持大多数浏览器，如Chrome、Edge、Firefox、Safari等。整体暗色风格在 src/style/dark.scss 文件进行了适配 */
+.pure-scrollbar {
+  /* Firefox */
+  scrollbar-width: thin;
+
+  /* 可选值为 'auto', 'thin', 'none' */
+  scrollbar-color: rgb(221 222 224) transparent;
+
+  /* 滑块颜色、轨道颜色 */
+  ::-webkit-scrollbar {
+    width: 6px;
+
+    /* 滚动条宽度 */
+  }
+
+  /* 滚动条轨道 */
+  ::-webkit-scrollbar-track {
+    background: transparent;
+
+    /* 轨道颜色 */
+  }
+
+  /* 滚动条滑块 */
+  ::-webkit-scrollbar-thumb {
+    background-color: rgb(221 222 224);
+    border-radius: 4px;
+  }
+
+  /* 滚动条滑块：hover状态 */
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(199 201 203);
+
+    /* 滑块hover颜色 */
+  }
+}
+
+.el-time-panel__footer {
+  text-align: center !important;
+}

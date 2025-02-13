@@ -1,0 +1,376 @@
+[
+  {
+    "version": "3.9.38",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/03/12 09:21:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "更新版本至3.9.38"
+      }
+    ]
+  },
+  {
+    "version": "3.9.37",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/09 11:16:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "优化接口调用"
+      }
+    ]
+  },
+  {
+    "version": "3.9.36",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "再次验证测试更新提示2次"
+      }
+    ]
+  },
+  {
+    "version": "3.9.35",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "再次测试更新提示2次"
+      }
+    ]
+  },
+  {
+    "version": "3.9.34",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试更新提示2次"
+      }
+    ]
+  },
+  {
+    "version": "3.9.32",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "录频验证修改自动检测更新轮询间隔时间"
+      }
+    ]
+  },
+  {
+    "version": "3.9.31",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "验证修改自动检测更新轮询间隔时间"
+      }
+    ]
+  },
+  {
+    "version": "3.9.30",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "修改自动检测更新轮询间隔时间"
+      }
+    ]
+  },
+  {
+    "version": "3.9.29",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "修改自动更新提示信息"
+      }
+    ]
+  },
+  {
+    "version": "3.9.28",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "提示更新改为自动更新"
+      }
+    ]
+  },
+  {
+    "version": "3.9.27",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "验证开启线上环境控制台输出"
+      }
+    ]
+  },
+  {
+    "version": "3.9.26",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "开启线上环境控制台输出"
+      }
+    ]
+  },
+  {
+    "version": "3.9.25",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试版本检测更新控制台打印"
+      }
+    ]
+  },
+  {
+    "version": "3.9.24",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "版本检测添加回调控制台打印"
+      }
+    ]
+  },
+  {
+    "version": "3.9.23",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试cross-env依赖"
+      }
+    ]
+  },
+  {
+    "version": "3.9.22",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "添加cross-env依赖"
+      }
+    ]
+  },
+  {
+    "version": "3.9.21",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试version-external.json配置文件2"
+      }
+    ]
+  },
+  {
+    "version": "3.9.20",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试version-external.json配置文件1"
+      }
+    ]
+  },
+  {
+    "version": "3.9.19",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "测试version-external.json配置文件"
+      }
+    ]
+  },
+  {
+    "version": "3.9.18",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "添加version-external.json配置文件"
+      }
+    ]
+  },
+  {
+    "version": "3.9.17",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 17:16:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "检测更新记录json文件添加自定义主题配置"
+      }
+    ]
+  },
+  {
+    "version": "3.9.16",
+    "title": "检测到新版本",
+    "pollingTime": 10000,
+    "publisher": "许银灯",
+    "publishTime": "2024/01/04 16:48:00",
+    "buttonText": "立即更新",
+    "primaryColor": "#758bfd",
+    "rocketColor": "#ff8600",
+    "imageUrl": "https://avatars.githubusercontent.com/u/26329117",
+    "description": [
+      {
+        "index": 1,
+        "value": "添加检测更新记录json文件"
+      }
+    ]
+  }
+]

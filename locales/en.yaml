@@ -1,0 +1,103 @@
+buttons:
+  hsLoginOut: LoginOut
+  hsPersonalCenter: Personal Center
+  hsfullscreen: FullScreen
+  hsexitfullscreen: ExitFullscreen
+  hsrefreshRoute: RefreshRoute
+  hslogin: Login
+  hsadd: Add
+  hsmark: Mark/Cancel
+  hssave: Save
+  hssearch: Search
+  hsexpendAll: Expand All
+  hscollapseAll: Collapse All
+  hssystemSet: Open ProjectConfig
+  hsdelete: Delete
+  hsreload: Reload
+  hscloseCurrentTab: Close CurrentTab
+  hscloseLeftTabs: Close LeftTabs
+  hscloseRightTabs: Close RightTabs
+  hscloseOtherTabs: Close OtherTabs
+  hscloseAllTabs: Close AllTabs
+  hswholeFullScreen: Whole FullScreen
+  hswholeExitFullScreen: Whole ExitFullScreen
+  hscontentFullScreen: Content FullScreen
+  hscontentExitFullScreen: Content ExitFullScreen
+menus:
+  hsPersonalCenter: Personal Center
+  hshome: Home
+  hslogin: Login
+  hsempty: Empty Page
+  hserror: Error Page
+  hsfourZeroFour: "404"
+  hsfourZeroOne: "403"
+  hsFive: "500"
+  permission: Permission Manage
+  permissionPage: Page Permission
+  permissionButton: Button Permission
+  personnel: Personnel Manage
+  personnelGeneralSituation: General Situation
+  personnelAssessment: Assessment Manage
+  personnelTraining: Training Manage
+  employeeInformation: Employee Information
+  personalVacation: Personal Vacation
+  employeeCard: Employee Card
+  attendanceManage: Attendance Manage
+  attendanceGroup: Attendance Group
+  attendanceSetUp: Attendance Set Up
+  leaveManage: Leave Manage
+  businessTravel: Business Travel
+  attendanceDetails: Attendance Details
+  attendanceStatistics: Attendance Statistics
+  recruitmentManage: Recruitment Manage
+  recruitmentApply: Recruitment Apply
+  recruitmentPosition: Recruitment Position
+  recruiterInformation: Recruiter Information
+  offerExamine: Offer Examine
+  recruitmentList: Add Recruitment
+  laborContractManage: LaborContract Manage
+  induction: Staff Induction
+  official: Staff Official
+  resign: Staff Resign
+  administration: Administration Manage
+  administrationVehicle: Vehicle Manage
+  vehicleList: Vehicle List
+  driverManage: Driver Manage
+  insuranceList: Insurance List
+  maintainList: Maintain List
+  auditList: Audit List
+  violationList: Violation List
+  administrationPurchasing: Purchasing Manage
+  purchasingExamine: PurchasingExamine
+  supplier: Supplier List
+  administrationQualifications: qualifications
+  qualificationsMgr: QualificationsMgr
+  qualificationsSetting: QualificationsSetting
+  assetManagement: Asset Management
+  assetCategory: Asset Category
+  assetList: Asset List
+  assetApply: Asset Apply
+  assetExamine: Asset Examine
+  myAsset: My Asset
+  scrapList: Scrap List
+  housingManage: Housing Manage
+  housingList: Housing List
+  leaseReminder: Lease Reminder
+  leaseholder: Leaseholder
+  roomManage: Room Manage
+  hssysManagement: System Manage
+  hsUser: User Manage
+  hsDict: Dict Manage
+  hsRole: Role Manage
+  hsDept: Dept Manage
+  hseditor: Editor
+  menu: Menus Manage
+  button: Button Manage
+  organization: Organization Manage
+  staff: Staff Manage
+  department: Department Manage
+  log: Log Manage
+  operation: Operation Log Manage
+  system: System Log Manage
+  configuration: Configuration Manage
+  jobTitleManage: JobTitle Manage

@@ -1,0 +1,799 @@
+<script setup lang="ts">
+import { useRoute } from "vue-router";
+import { regionData } from "element-plus-china-area";
+import { ref, onMounted, nextTick, reactive, watch } from "vue";
+import { FormInstance, ElMessage, ElMessageBox } from "element-plus";
+
+import {
+  getBiddingList,
+  DeleteBidding,
+  UpdateInStatus,
+  getBiddingBuyMethod,
+  getBiddingNoticeType,
+  GetTreeList,
+  GetBiddingInStatus,
+  getMoreDownload
+} from "@/api/bidding";
+import ReadDialog from "@/components/ReadDialog";
+import { batchExportExcel } from "@/api/exportAll";
+import { TableProBar } from "@/components/ReTable";
+import DialogForm from "./components/DialogForm.vue";
+import { useRenderIcon } from "@/components/ReIcon/src/hooks";
+import { tableButtons, operationButtons, columns } from "./constant";
+import { TableColumOperation } from "@/components/TableColumOperation";
+import { useGlobal } from "@pureadmin/utils";
+import { getUserListByRoleCodeNew } from "@/api/user";
+
+const route = useRoute();
+const title = useRoute().meta.title as string;
+
+const { $config } = useGlobal<GlobalPropertiesApi>();
+const roleCodeStaffListMap = {
+  busiStaffList: $config.RoleCodeBusinessAssistant
+};
+
+watch(
+  () => route.name,
+  newVal => {
+    if (newVal == "BusinessTender") {
+      nextTick(() => {
+        setTimeout(() => {
+          onSearch();
+        }, 0);
+      });
+    }
+  }
+);
+
+defineOptions({
+  name: "BusinessTender"
+});
+
+// 查询条件模型 vue3 声明对象类型的响应式变量，另外如果是原始数据类型，则使用ref方法
+const form = reactive({
+  keyword: "",
+  areaCode: [],
+  startTime: "",
+  endTime: "",
+  startCreateTime: "", //创建开始时间
+  endCreateTime: "", //创建结束时间
+  buyMethod: "", //采购方式
+  noticeType: "", //公告类型
+  buySubjectId: "",
+  busiStaffId: "",
+  startAmount: 0,
+  endAmount: 500000000,
+  pageIndex: 1,
+  pageSize: 20
+});
+
+const staffList = ref({
+  busiStaffList: []
+});
+const fold = ref(true);
+const dataList = ref([]);
+const totalPage = ref(0);
+const requestLoading = ref(true); //请求加载状态
+const maxItemNum = ref(1);
+const tableHeight = ref(0);
+const buyMethodList = ref([]);
+// let switchLoadMap = ref({});
+const noticeTypeList = ref([]);
+const inStatusType = ref([]);
+const dialogFormRef = ref(null);
+const formRef = ref<FormInstance>();
+const treeData = ref([]); //采购主体树
+const multipleTableRef = ref(null);
+const allClick = ref(false);
+const allData = ref([]);
+const multipleSelection = ref([]);
+const readDialogRef = ref(null); // 表单对话框组件实例
+const exportLoading = ref(false);
+const downLoading = ref(false);
+//el-cascader props属性值
+const selProps = {
+  children: "children",
+  label: "subjectName",
+  multiple: false,
+  emitPath: false,
+  value: "id",
+  checkStrictly: true
+};
+
+// 搜索获取表格数据
+async function onSearch() {
+  requestLoading.value = true;
+  const { areaCode, ...params } = form;
+  (params as any).areaCode = areaCode != null ? areaCode.join() : "";
+  getBiddingList(params)
+    .then(({ data }) => {
+      const _data = data.data || [];
+      dataList.value = _data.map(item => {
+        item.disabled = {};
+        item.title = {};
+
+        //删除
+        item.disabled["handleDelete"] = !item.canDel;
+        item.title["handleDelete"] = "";
+        //投标
+        item.disabled["handleStatus1"] = item.inStatus != 1;
+        item.title["handleStatus1"] =
+          item.inStatus != 1 ? "已参与或不参与" : "";
+        //不投标
+        item.disabled["handleStatus2"] = item.inStatus != 1;
+        item.title["handleStatus2"] =
+          item.inStatus != 1 ? "已参与或不参与" : "";
+        return item;
+      });
+      if (allClick.value) {
+        //当前已经是全选状态  判断allData里面是否否已经有list的数据，没有则加上
+        const nids = allData.value.map(item => item.id).join();
+        dataList.value.forEach(item => {
+          item.isSelected = true;
+          if (nids.indexOf(item.id) == -1) {
+            allData.value.push(item);
+          }
+        });
+        //当前页全选
+        nextTick(() => {
+          multipleTableRef.value.toggleAllSelection();
+        });
+      } else {
+        //不是全选状态 判断allData里面是否否已经有list的数据，没有则加上
+        const nids = allData.value.map(item => item.id).join();
+        dataList.value.forEach(item => {
+          if (nids.indexOf(item.id) == -1) {
+            allData.value.push(item);
+          }
+        });
+        //然后再判断
+        dataList.value.forEach(item => {
+          allData.value.forEach(sitem => {
+            if (item.id == sitem.id) {
+              if (sitem.isSelected) {
+                nextTick(() => {
+                  multipleTableRef.value.toggleRowSelection(item, true);
+                });
+              } else {
+                nextTick(() => {
+                  multipleTableRef.value.toggleRowSelection(item, false);
+                });
+              }
+            }
+          });
+        });
+      }
+      multipleSelection.value = [];
+      allData.value.forEach(item => {
+        if (item.isSelected) {
+          multipleSelection.value.push(item);
+        }
+      });
+      totalPage.value = data.totalCount;
+      requestLoading.value = false;
+    })
+    .catch(() => {
+      dataList.value = [];
+      requestLoading.value = false;
+    });
+}
+//序号列
+function getIndex(index) {
+  const page = form.pageIndex;
+  const pagesize = form.pageSize;
+  return (page - 1) * pagesize + index + 1;
+}
+function handleOperation(functionName, row?) {
+  console.log("functionName", functionName);
+  switch (functionName) {
+    case "handleAdd":
+      handleAdd();
+      break;
+    case "handleExport":
+      handleExport();
+      break;
+    case "handleMoreDownload":
+      handleMoreDownload();
+      break;
+    case "handleRead":
+      readDialogRef.value.show(row, columns);
+      break;
+    case "handleEdit":
+      handleEdit(row);
+      break;
+    case "handleDelete":
+      handleDelete(row);
+      break;
+    case "handleStatus1":
+      handleStatus1(row.id, 2);
+      break;
+    case "handleStatus2":
+      handleStatus2(row.id, 3);
+      break;
+  }
+}
+
+// 获取采购方式NV列表数据
+async function getBuyMethod() {
+  const { data } = await getBiddingBuyMethod({});
+  buyMethodList.value = data || [];
+}
+
+// 获取公告类型NV列表数据
+async function getNoticeType() {
+  const { data } = await getBiddingNoticeType({});
+  noticeTypeList.value = data || [];
+}
+
+// 获取所有参与状态
+async function getInStatus() {
+  const { data } = await GetBiddingInStatus({});
+  inStatusType.value = data || [];
+}
+
+// 根据部门Id获取员工列表
+const getStaffListByDeptId = async (roleCode, staffType) => {
+  const { data = {} } = await getUserListByRoleCodeNew({
+    roleCode
+  });
+  staffList.value[staffType] = data || [];
+};
+
+//添加
+function handleAdd() {
+  dialogFormRef.value.show(null, "add");
+}
+
+//编辑
+function handleEdit(row) {
+  dialogFormRef.value.show(row, "edit");
+}
+//删除
+async function handleDelete(row) {
+  ElMessageBox.confirm("确定要删除吗?", "提示", {
+    confirmButtonText: "确定",
+    cancelButtonText: "取消",
+    type: "warning"
+  })
+    .then(async () => {
+      const { code, message } = await DeleteBidding({ id: row.id });
+      if (code == 0) {
+        ElMessage.success(message);
+        onSearch();
+      }
+    })
+    .catch(() => {});
+}
+//批量删除
+// function handleMoreDelete() {}
+//导出
+const handleExport = async () => {
+  exportLoading.value = true;
+  const fileName = "招标公告";
+  let param = {};
+  if (allClick.value) {
+    param = Object.assign({}, form);
+    param.areaCode = form.areaCode != null ? form.areaCode.join() : "";
+  } else {
+    if (multipleSelection.value.length > 0) {
+      const ids = multipleSelection.value.map(item => item.id).join();
+      param["ids"] = ids;
+    } else {
+      ElMessage.error("未选中任何行");
+      exportLoading.value = false;
+      return false;
+    }
+  }
+  await batchExportExcel("/api/Bidding/ExportBiddingList?", fileName, param);
+  exportLoading.value = false;
+  allClick.value = false;
+  allData.value = [];
+  multipleSelection.value = [];
+  multipleTableRef.value.toggleAllSelection(false);
+  onSearch();
+};
+//批量下载
+const handleMoreDownload = async () => {
+  downLoading.value = true;
+  let param = {};
+  if (allClick.value) {
+    param = Object.assign({}, form);
+    param.areaCode = form.areaCode != null ? form.areaCode.join() : "";
+    param["ids"] = "";
+  } else {
+    if (multipleSelection.value.length > 0) {
+      const ids = multipleSelection.value.map(item => item.id).join();
+      param["ids"] = ids;
+    } else {
+      ElMessage.error("未选中任何行");
+      downLoading.value = false;
+      return false;
+    }
+  }
+  await getMoreDownload(param);
+  downLoading.value = false;
+  allClick.value = false;
+  allData.value = [];
+  multipleSelection.value = [];
+  multipleTableRef.value.toggleAllSelection(false);
+  onSearch();
+};
+//参与
+const handleStatus1 = async (id, inStatus) => {
+  const { code, message } = await UpdateInStatus({
+    id,
+    inStatus: inStatus
+  });
+  if (code == 0) {
+    ElMessage.success(message);
+    onSearch();
+  }
+};
+
+//不参与
+const handleStatus2 = async (id, inStatus) => {
+  const { code, message } = await UpdateInStatus({
+    id,
+    inStatus: inStatus
+  });
+  if (code == 0) {
+    ElMessage.success(message);
+    onSearch();
+  }
+};
+
+//省市区三级联动
+function handleChange(_value) {}
+
+const resetForm = (formEl: FormInstance | undefined) => {
+  if (!formEl) return;
+  formEl.resetFields();
+  onSearch();
+};
+
+//切换“折叠”与“展开”
+function handleFold() {
+  fold.value = !fold.value;
+  setTableHeight();
+}
+
+// 设置表格组件高度
+const setTableHeight = () => {
+  nextTick(() => {
+    maxItemNum.value =
+      (formRef.value.$el.clientWidth -
+        8 -
+        32 -
+        formRef.value.$el.children[formRef.value.$el.children.length - 1]
+          .clientWidth) /
+      (formRef.value.$el.children[0].clientWidth + 32);
+    maxItemNum.value = Math.floor(maxItemNum.value);
+    tableHeight.value =
+      window.innerHeight - formRef.value.$el.clientHeight - 230;
+  });
+};
+
+function handleSingleRow(selection, row) {
+  // row.isSelected = !row.isSelected
+  allClick.value = false;
+  multipleSelection.value = [];
+  allData.value.forEach(item => {
+    if (item.id == row.id) {
+      item.isSelected = !item.isSelected;
+    }
+    if (item.isSelected) {
+      multipleSelection.value.push(item);
+    }
+  });
+}
+function handleAllSelection(selection) {
+  if (selection == 0) {
+    allClick.value = false;
+    dataList.value.forEach(item => {
+      allData.value.forEach(sitem => {
+        if (item.id == sitem.id) {
+          sitem.isSelected = false;
+        }
+      });
+    });
+  } else {
+    allClick.value = true;
+    dataList.value.forEach(item => {
+      allData.value.forEach(sitem => {
+        if (item.id == sitem.id) {
+          sitem.isSelected = true;
+        }
+      });
+    });
+  }
+  multipleSelection.value = [];
+  allData.value.forEach(item => {
+    if (item.isSelected) {
+      multipleSelection.value.push(item);
+    }
+  });
+}
+
+onMounted(async () => {
+  Object.keys(roleCodeStaffListMap).forEach(item => {
+    getStaffListByDeptId(roleCodeStaffListMap[item], item);
+  });
+  onSearch();
+  getBuyMethod();
+  getNoticeType();
+  getInStatus();
+  nextTick(() => {
+    setTableHeight();
+  });
+
+  //采购主体树
+  const { data } = await GetTreeList();
+  treeData.value = data || [];
+});
+
+// 窗口尺寸改变事件回调
+window.onresize = function () {
+  nextTick(() => {
+    setTableHeight();
+  });
+};
+</script>
+
+<template>
+  <div class="main">
+    <el-form
+      ref="formRef"
+      :inline="true"
+      :model="form"
+      label-width="100px"
+      class="bg-bg_color w-100/100 pl-2 pt-4 mb-2"
+      @keyup.enter="onSearch"
+    >
+      <!-- <el-form-item
+        label="参与状态"
+        prop="inStatus"
+        v-show="maxItemNum >= 1 || !fold"
+      >
+        <el-select
+          clearable
+          v-model="form.inStatus"
+          placeholder="请选择"
+          :style="{ width: '100%' }"
+        >
+          <el-option label="全部" value="" />
+          <el-option
+            v-for="item in inStatusType"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item> -->
+      <el-form-item
+        v-show="maxItemNum >= 1 || !fold"
+        label="采购方式"
+        prop="buyMethod"
+      >
+        <el-select
+          v-model="form.buyMethod"
+          clearable
+          placeholder="请选择"
+          :style="{ width: '100%' }"
+        >
+          <el-option label="全部" value="" />
+          <el-option
+            v-for="item in buyMethodList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 2 || !fold"
+        label="公告类型"
+        prop="noticeType"
+      >
+        <el-select
+          v-model="form.noticeType"
+          clearable
+          placeholder="请选择"
+          :style="{ width: '100%' }"
+        >
+          <el-option label="全部" value="" />
+          <el-option
+            v-for="item in noticeTypeList"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 3 || !fold"
+        label="采购主体"
+        prop="buySubjectId"
+      >
+        <el-cascader
+          v-model="form.buySubjectId"
+          clearable
+          :options="treeData"
+          placeholder="请选择"
+          class="w-100/100"
+          :props="selProps"
+          :show-all-levels="false"
+        >
+          <template #default="{ data }">
+            <span>{{ data.subjectName }}</span>
+          </template>
+        </el-cascader>
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 5 || !fold"
+        label="创建开始日期"
+        prop="startCreateTime"
+      >
+        <el-date-picker
+          v-model="form.startCreateTime"
+          clearable
+          placeholder="请选择"
+          type="date"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 6 || !fold"
+        label="商务专员"
+        prop="busiStaffId"
+      >
+        <el-select v-model="form.busiStaffId" style="width: 100%" filterable>
+          <el-option
+            v-for="item in staffList.busiStaffList"
+            :key="item.staffId"
+            :label="item.staffName"
+            :value="item.staffId"
+          />
+        </el-select>
+      </el-form-item>
+      <!-- <el-form-item
+        label="创建截止日期"
+        prop="endCreateTime"
+        v-show="maxItemNum >= 6 || !fold"
+      >
+        <el-date-picker
+          clearable
+          placeholder="请选择"
+          v-model="form.endCreateTime"
+          type="date"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />
+      </el-form-item> -->
+      <el-form-item
+        v-show="maxItemNum >= 4 || !fold"
+        label="省份地区"
+        prop="areaCode"
+      >
+        <el-cascader
+          v-model="form.areaCode"
+          placeholder="请选择"
+          :options="regionData"
+          :props="{
+            checkStrictly: true
+          }"
+          clearable
+          @change="handleChange"
+        />
+      </el-form-item>
+
+      <el-form-item
+        v-show="maxItemNum >= 5 || !fold"
+        label="报名开始日期"
+        prop="startTime"
+      >
+        <el-date-picker
+          v-model="form.startTime"
+          clearable
+          placeholder="请选择"
+          type="date"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 6 || !fold"
+        label="报名截止日期"
+        prop="endTime"
+      >
+        <el-date-picker
+          v-model="form.endTime"
+          clearable
+          placeholder="请选择"
+          type="date"
+          format="YYYY-MM-DD"
+          value-format="YYYY-MM-DD"
+        />
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 7 || !fold"
+        label="中标金额(起)"
+        prop="startAmount"
+      >
+        <el-input
+          v-model="form.startAmount"
+          type="number"
+          placeholder="请输入"
+          clearable
+        >
+          <template #suffix>
+            <p>{{ "元" }}</p>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 8 || !fold"
+        label="中标金额(止)"
+        prop="endAmount"
+        type="number"
+      >
+        <el-input v-model="form.endAmount" placeholder="请输入" clearable>
+          <template #suffix>
+            <p>{{ "元" }}</p>
+          </template>
+        </el-input>
+      </el-form-item>
+      <el-form-item
+        v-show="maxItemNum >= 9 || !fold"
+        label="关键字"
+        prop="keyword"
+      >
+        <el-input v-model="form.keyword" placeholder="招标标题" clearable />
+      </el-form-item>
+
+      <el-form-item>
+        <el-button
+          type="primary"
+          :icon="useRenderIcon('search')"
+          :loading="requestLoading"
+          @click="onSearch"
+        >
+          查询
+        </el-button>
+        <el-button :icon="useRenderIcon('refresh')" @click="resetForm(formRef)">
+          重置
+        </el-button>
+        <el-button type="text" @click="handleFold">
+          <span v-show="fold">展开</span>
+          <span v-show="!fold">折叠</span>
+          <IconifyIconOffline :icon="!fold ? 'arrow-up' : 'arrow-down'" />
+        </el-button>
+      </el-form-item>
+    </el-form>
+    <TableProBar
+      :title="title"
+      :loading="requestLoading"
+      :dataList="dataList"
+      @refresh="onSearch"
+    >
+      <template #buttons>
+        <el-button
+          v-for="(item, index) in tableButtons"
+          :key="index"
+          :loading="
+            (item.buttonClick == 'handleExport' && exportLoading) ||
+            (item.buttonClick == 'handleMoreDownload' && downLoading)
+          "
+          :type="item.buttonType"
+          :icon="useRenderIcon(item.buttonIcon)"
+          @click="handleOperation(item.buttonClick)"
+        >
+          {{ item.buttonName }}
+        </el-button>
+      </template>
+      <template v-slot="{ size, checkList }">
+        <el-table
+          ref="multipleTableRef"
+          border
+          :size="size"
+          :height="tableHeight"
+          :data="dataList"
+          highlight-current-row
+          :default-expand-all="false"
+          row-key="path"
+          @select="handleSingleRow"
+          @select-all="handleAllSelection"
+        >
+          <el-table-column type="selection" align="center" width="60" />
+          <el-table-column
+            v-if="checkList.includes('序号列')"
+            type="index"
+            :index="getIndex"
+            label="序号"
+            align="center"
+            fixed="left"
+            width="60"
+          />
+          <template v-for="column in columns" :key="column.prop">
+            <el-table-column
+              v-if="column.read"
+              :label="column.label"
+              :prop="column.prop"
+              :align="column.align"
+              :min-width="column.width"
+              :fixed="column.fixed"
+              :show-overflow-tooltip="column.showOverflowTooltip"
+            >
+              <template #default="{ row }">
+                <el-text
+                  type="primary"
+                  class="cursor-pointer"
+                  @click="handleOperation('handleRead', row)"
+                >
+                  {{ row[column.prop] }}
+                </el-text>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-else
+              :align="column.align"
+              :label="column.label"
+              :prop="column.prop"
+              :show-overflow-tooltip="column.showOverflowTooltip"
+              :min-width="column.width"
+              :formatter="column.formatter"
+            >
+              <template #default="{ row }">
+                <template v-if="column.tableColumnSlot">
+                  <component :is="column.tableColumnSlot(row)" />
+                </template>
+                <template v-else-if="column.formatter">
+                  {{ column.formatter(row) }}
+                </template>
+                <template v-else>
+                  {{ row[column.prop] }}
+                </template>
+              </template>
+            </el-table-column>
+          </template>
+
+          <TableColumOperation
+            v-if="operationButtons().length > 0"
+            :size="size"
+            :operationButtons="operationButtons()"
+            @operation="handleOperation"
+          />
+          <template #empty>
+            <el-empty description="暂无数据" />
+          </template>
+        </el-table>
+        <el-pagination
+          v-model:page-size="form.pageSize"
+          v-model:current-page="form.pageIndex"
+          class="flex justify-end mt-4"
+          :small="size === 'small' ? true : false"
+          :page-sizes="[10, 20, 30, 50, 100, 200]"
+          :background="true"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="totalPage"
+          @size-change="onSearch"
+          @current-change="onSearch"
+        />
+      </template>
+    </TableProBar>
+    <DialogForm
+      ref="dialogFormRef"
+      :buyMethodList="buyMethodList"
+      :noticeTypeList="noticeTypeList"
+      @search="onSearch"
+    />
+    <ReadDialog ref="readDialogRef" :title="title" :column="2" :width="640" />
+  </div>
+</template>
+<style lang="scss" scoped>
+:deep() {
+  .el-input__wrapper {
+    width: 220px;
+  }
+}
+</style>
